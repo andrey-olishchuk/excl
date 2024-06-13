@@ -12,7 +12,7 @@ def index(folder):
     docs = loader.load()
     for d in docs:
         alldata = d.page_content.split("<<<***")
-        click.echo(alldata[0][:20])
+        click.echo(click.style(alldata[0][:20],fg="green"))
         if (len(alldata) > 0):
             click.echo(alldata[1])
 
