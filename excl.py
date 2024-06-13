@@ -1,6 +1,5 @@
 import click
 from langchain_community.document_loaders import DirectoryLoader
-from langchain_community.document_loaders import TextLoader
 
 @click.group()
 def cli():
