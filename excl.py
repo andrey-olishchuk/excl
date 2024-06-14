@@ -1,5 +1,8 @@
 import click
+import gemini
+import qdrant
 from langchain_community.document_loaders import DirectoryLoader
+
 
 @click.group()
 def cli():
@@ -8,13 +11,25 @@ def cli():
 @click.command()
 @click.argument('folder')
 def index(folder):
-    loader = DirectoryLoader('./documents', glob="**/*.txt", show_progress=True)
+    loader = DirectoryLoader(folder, glob="**/*.txt", show_progress=True)
     docs = loader.load()
+    i = 1
     for d in docs:
         alldata = d.page_content.split("<<<***")
-        click.echo(click.style(alldata[0][:20],fg="green"))
+        vector = gemini.embed_content(alldata[0])
+
         if (len(alldata) > 0):
-            click.echo(alldata[1])
+            link = alldata[1]
+        else:
+            link = ""
+
+        click.echo(click.style(alldata[0][:20],fg="green"))
+        click.echo(click.style(vector[:5],fg="blue"))
+        click.echo(click.style(link,fg="yellow"))
+        
+        qdrant.add_index(i,vector,link,alldata[0])
+        i += 1
+
 
 @click.command()
 def ask():
