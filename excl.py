@@ -32,8 +32,12 @@ def index(folder):
 
 
 @click.command()
-def ask():
-    click.echo('Searching index')
+@click.option('--question', help='Question to answer')
+def ask(question):
+    vector = gemini.embed_content(question)
+    documents = qdrant.search(vector)
+    answer = gemini.prompt(question, documents)
+    click.echo(answer)
 
 cli.add_command(index)
 cli.add_command(ask)

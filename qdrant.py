@@ -16,3 +16,11 @@ def add_index(i, vector, link, source):
         ],
     )
     return upsert
+
+def search(vector):
+    result = client.search(
+        collection_name=qdrant_collection,
+        query_vector=vector,
+        limit=3,
+    )
+    return result
