@@ -10,7 +10,8 @@ def cli():
 
 @click.command()
 @click.argument('folder')
-def index(folder):
+@click.option('--collection', help='Alternative collection name')
+def index(folder, collection):
     loader = DirectoryLoader(folder, glob="**/*.txt", show_progress=True)
     docs = loader.load()
     i = 1
@@ -27,7 +28,7 @@ def index(folder):
         click.echo(click.style(vector[:5],fg="blue"))
         click.echo(click.style(link,fg="yellow"))
         
-        qdrant.add_index(i,vector,link,alldata[0])
+        qdrant.add_index(i,vector,link,alldata[0], collection)
         i += 1
 
 
@@ -41,8 +42,15 @@ def ask(question):
     click.echo(click.style(answer,fg="green"))
     click.echo(click.style(links,fg="yellow"))
 
+@click.command()
+@click.argument('collection')
+def kickoff(collection):
+    qdrant.kickoff(collection)
+    click.echo(f'Kickoff attempt on the collection: {collection}')
+
 cli.add_command(index)
 cli.add_command(ask)
+cli.add_command(kickoff)
 
 if __name__ == '__main__':
     cli()
