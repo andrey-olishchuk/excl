@@ -36,8 +36,10 @@ def index(folder):
 def ask(question):
     vector = gemini.embed_content(question)
     documents = qdrant.search(vector)
+    links = gemini.extract_links(documents)
     answer = gemini.prompt(question, documents)
-    click.echo(answer)
+    click.echo(click.style(answer,fg="green"))
+    click.echo(click.style(links,fg="yellow"))
 
 cli.add_command(index)
 cli.add_command(ask)

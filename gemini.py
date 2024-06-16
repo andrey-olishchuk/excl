@@ -7,6 +7,15 @@ def embed_content(text):
 
     return result['embedding']
 
+def extract_links(documents):
+    links = ""
+    for d in documents:
+        if links:
+            links = links + ", " + d.payload["link"]
+        else: 
+            links = "See also the following documents: " + d.payload["link"]
+    return links
+
 def prompt(text, documents):
     document = ""
     for d in documents:
