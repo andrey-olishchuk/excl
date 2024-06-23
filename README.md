@@ -18,3 +18,19 @@ To index documents from a folder, use the `index` command. This command reads al
 ```sh
 python main.py index <folder_path> --collection <collection_name>
 ```
+
+### Asking Questions
+
+To ask a question and get a contextually accurate answer based on the indexed documents, use the `ask` command. This command embeds the question, retrieves relevant documents, and generates a response.
+
+```sh
+python main.py ask --question "Your question here"
+```
+
+### Managing Collections
+
+To manage your document collections, use the `kickoff` command. This command can be used to perform initialization tasks or to reset the state of a collection.
+
+```sh
+python main.py kickoff <collection_name>
+```
